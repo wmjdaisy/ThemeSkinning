@@ -65,7 +65,7 @@ public class MainActivity extends SkinBaseActivity {
                 SkinManager.getInstance().restoreDefaultTheme();
                 break;
             case R.id.action_load_local1:
-                SkinManager.getInstance().loadSkin("theme-20171126.skin",
+                SkinManager.getInstance().loadSkin("theme-21478.skin",
                         new SkinLoaderListener() {
                             @Override
                             public void onStart() {

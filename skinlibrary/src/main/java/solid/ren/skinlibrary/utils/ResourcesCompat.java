@@ -5,6 +5,9 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
+import solid.ren.skinlibrary.loader.SkinManager;
+import solid.ren.skinlibrary.loader.SkinResource;
+
 /**
  * Created by _SOLID
  * Date:2016/12/27
@@ -14,15 +17,15 @@ import android.util.DisplayMetrics;
 
 public class ResourcesCompat {
 
-    public static Resources getResources(AssetManager assetManager,
+    public static Resources getResources(SkinManager skinManager, AssetManager assetManager,
                                          DisplayMetrics displayMetrics,
-                                         Configuration configuration) {
-        Resources resources= null;
+                                         Configuration configuration, String packageName) {
+        Resources SkinResource= null;
         try {
-            resources = new Resources(assetManager, displayMetrics, configuration);
+            SkinResource = new SkinResource(skinManager,assetManager, displayMetrics, configuration,packageName);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return resources;
+        return SkinResource;
     }
 }

@@ -194,7 +194,7 @@ public class SkinManager implements ISkinLoader {
 
 
                         Resources superRes = context.getResources();
-                        Resources skinResource = ResourcesCompat.getResources(assetManager, superRes.getDisplayMetrics(), superRes.getConfiguration());
+                        Resources skinResource = ResourcesCompat.getResources(SkinManager.this,assetManager, superRes.getDisplayMetrics(), superRes.getConfiguration(),skinPackageName);
                         SkinConfig.saveSkinPath(context, params[0]);
 
                         isDefaultSkin = false;
@@ -350,22 +350,28 @@ public class SkinManager implements ISkinLoader {
         if (mResources == null || isDefaultSkin) {
             return originDrawable;
         }
-        String resName = context.getResources().getResourceEntryName(resId);
-        int trueResId = mResources.getIdentifier(resName, "drawable", skinPackageName);
-        Drawable trueDrawable;
-        if (trueResId == 0) {
-            trueResId = mResources.getIdentifier(resName, "mipmap", skinPackageName);
-        }
-        if (trueResId == 0) {
-            trueDrawable = originDrawable;
-        } else {
-            if (android.os.Build.VERSION.SDK_INT < 22) {
-                trueDrawable = mResources.getDrawable(trueResId);
-            } else {
-                trueDrawable = mResources.getDrawable(trueResId, null);
+        try {
+            String resName = context.getResources().getResourceEntryName(resId);
+            int trueResId = mResources.getIdentifier(resName, "drawable", skinPackageName);
+            Drawable trueDrawable;
+            if (trueResId == 0) {
+                trueResId = mResources.getIdentifier(resName, "mipmap", skinPackageName);
             }
+            if (trueResId == 0) {
+                trueDrawable = originDrawable;
+            } else {
+                if (android.os.Build.VERSION.SDK_INT < 22) {
+                    trueDrawable = mResources.getDrawable(trueResId);
+                } else {
+                    trueDrawable = mResources.getDrawable(trueResId, null);
+                }
+            }
+            return trueDrawable;
+        }catch (Exception e){
+            e.printStackTrace();
+            return originDrawable;
         }
-        return trueDrawable;
+
     }
 
     /**
@@ -399,4 +405,8 @@ public class SkinManager implements ISkinLoader {
         }
     }
     //endregion
+
+    public Context getContext() {
+        return context;
+    }
 }
